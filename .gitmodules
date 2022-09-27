@@ -1,0 +1,3 @@
+[submodule "components/libnyumaya_esp32"]
+	path = components/libnyumaya_esp32
+	url = git@github.com:nyumaya/libnyumaya_esp32.git
