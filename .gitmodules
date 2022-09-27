@@ -1,3 +1,9 @@
 [submodule "components/libnyumaya_esp32"]
 	path = components/libnyumaya_esp32
 	url = git@github.com:nyumaya/libnyumaya_esp32.git
+[submodule "components/esp-nn"]
+	path = components/esp-nn
+	url = git@github.com:espressif/esp-nn.git
+[submodule "components/esp-dsp"]
+	path = components/esp-dsp
+	url = git@github.com:espressif/esp-dsp.git
