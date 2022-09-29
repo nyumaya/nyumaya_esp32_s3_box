@@ -24,34 +24,31 @@ limitations under the License.
 #include "freertos/task.h"
 #include "main_functions.h"
 #include "bsp_board.h"
-#include "bsp_lcd.h"
-#include "bsp_btn.h"
 #include "bsp_storage.h"
 
-#include "nvs_flash.h"
-#include "nvs.h"
+void detection_task(void) {
 
-
-
-void tf_main(void) {
 	setup();
 	while (true) {
 		loop();
 	}
 }
 
+void mic_task(void) {
+
+	setup_mic();
+	while (true) {
+		mic_loop();
+	}
+}
+
 
 extern "C" void app_main() {
-	esp_err_t err = nvs_flash_init();
-	if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-		ESP_ERROR_CHECK(nvs_flash_erase());
-		err = nvs_flash_init();
-	}
+
 	ESP_ERROR_CHECK(bsp_board_init());
-	
 	ESP_ERROR_CHECK(bsp_board_power_ctrl(POWER_MODULE_AUDIO, true));
 
-	xTaskCreate((TaskFunction_t)&tf_main, "tensorflow", 8 * 1024, NULL, 8, NULL);
-
+	xTaskCreate((TaskFunction_t)&detection_task, "detection", 8 * 1024, NULL, 8, NULL);
+	xTaskCreate((TaskFunction_t)&mic_task, "microphone", 8 * 1024, NULL, 8, NULL);
 	vTaskDelete(NULL);
 }

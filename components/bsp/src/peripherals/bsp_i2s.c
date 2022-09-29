@@ -21,7 +21,7 @@
     .mode                   = I2S_MODE_MASTER | I2S_MODE_TX | I2S_MODE_RX, \
     .sample_rate            = sample_rate, \
     .bits_per_sample        = I2S_BITS_PER_SAMPLE_16BIT, \
-    .channel_format         = I2S_CHANNEL_FMT_ONLY_RIGHT, \
+    .channel_format         = I2S_CHANNEL_FMT_ONLY_LEFT, \
     .communication_format   = I2S_COMM_FORMAT_STAND_I2S, \
     .intr_alloc_flags       = ESP_INTR_FLAG_LEVEL1, \
     .dma_buf_count          = 6, \
