@@ -26,22 +26,28 @@ limitations under the License.
 #include "bsp_board.h"
 #include "bsp_storage.h"
 
-void detection_task(void) {
-
+void detection_task(void)
+{
 	setup();
 	while (true) {
 		loop();
 	}
 }
 
-void mic_task(void) {
-
+void mic_task(void)
+{
 	setup_mic();
 	while (true) {
 		mic_loop();
 	}
 }
 
+void monitor_task(void)
+{
+	while (true) {
+		monitor();
+	}
+}
 
 extern "C" void app_main() {
 
@@ -50,5 +56,7 @@ extern "C" void app_main() {
 
 	xTaskCreate((TaskFunction_t)&detection_task, "detection", 8 * 1024, NULL, 8, NULL);
 	xTaskCreate((TaskFunction_t)&mic_task, "microphone", 8 * 1024, NULL, 8, NULL);
+	//Uncomment to do monitor free heap size
+	//xTaskCreate((TaskFunction_t)&monitor_task, "monitor", 2 * 1024, NULL, 8, NULL);
 	vTaskDelete(NULL);
 }

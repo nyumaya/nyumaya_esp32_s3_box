@@ -58,10 +58,17 @@ void setup()
 
 void mic_loop()
 {
+	uint64_t start_time = esp_timer_get_time();
 	/* Read audio data from I2S bus (1 channel 16 bit PCM) */
 	i2s_read(I2S_NUM_0, audio_buffer, bufsize * I2S_CHANNEL_NUM * sizeof(int16_t), &bytes_read, portMAX_DELAY);
 	signalToMel(extractor, audio_buffer, bytes_read/sizeof(int16_t), feature_buffer, gain);
 	int bytes_written = rb_write(feature_ringbuffer,(uint8_t*)feature_buffer, feature_buffer_size, 2000);
+	int total_time = (esp_timer_get_time() - start_time) / 1000;
+
+	if(total_time > 170){
+		ESP_LOGE("mic loop", "Mic loop running too slow: %d ms", total_time);
+		ESP_LOGE("mic loop", "This could reduce recognition accuracy because samples are lost");
+	}
 }
 
 
@@ -74,6 +81,14 @@ void loop()
 	if(result == 1){
 		ESP_LOGE("main", "Keyword detected!");
 	}
+}
+
+void monitor()
+{
+	const TickType_t xDelay2500ms = pdMS_TO_TICKS(2500);
+	ESP_LOGE("monitor", "Free DMA Size: %d", heap_caps_get_free_size(MALLOC_CAP_DMA));
+	ESP_LOGE("monitor", "Free INTERNAL Size: %d", heap_caps_get_free_size(MALLOC_CAP_INTERNAL));
+	vTaskDelay(xDelay2500ms);
 }
 
 void end()

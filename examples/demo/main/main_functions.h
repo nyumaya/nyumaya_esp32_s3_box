@@ -21,6 +21,7 @@ limitations under the License.
 extern "C" {
 #endif
 
+
 void setup();
 
 void loop();
@@ -28,6 +29,8 @@ void loop();
 void setup_mic();
 
 void mic_loop();
+
+void monitor();
 
 #ifdef __cplusplus
 }
