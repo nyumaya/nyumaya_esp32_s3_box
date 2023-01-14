@@ -52,7 +52,7 @@ void setup()
 	bufsize = getInputDataSize(recognizer);
 	int modelNumber;
 	int res = addModelFromBuffer(recognizer, marvin_model, marvin_model_len, modelNumber);
-	setSensitivity(recognizer, 0.9, modelNumber);
+	setSensitivity(recognizer, 0.1, modelNumber);
 }
 
 
